@@ -1,7 +1,7 @@
 // SchannelServer_IOCP.c
 // Testing the code - 
 //  1) Execute this program exe on one terminal
-//  2) openssl s_client -connect 192.168.1.68:8080 ( where IP is server IP)
+//  2) openssl s_client -connect 192.168.1.68:8080 ( where IP is server IP).
 
 // Standard practice: winsock2.h before windows.h
 #include <winsock2.h>
