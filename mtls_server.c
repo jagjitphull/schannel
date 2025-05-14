@@ -1,3 +1,33 @@
+/* GEnerating relevant certs for code examples to work
+Step 1: Generate the Root CA
+
+openssl genrsa -out ca.key 2048
+openssl req -x509 -new -key ca.key -sha256 -days 3650 -out ca.pem -subj "/CN=MyTestRootCA"
+
+Step 2: Generate Server Certificate (key + CSR)
+
+openssl genrsa -out server.key 2048
+openssl req -new -key server.key -out server.csr -subj "/CN=localhost"
+
+Sign Server CSR with CA
+openssl x509 -req -in server.csr -CA ca.pem -CAkey ca.key -CAcreateserial -out server.crt -days 365 -sha256
+
+Step 3: Generate Client Certificate (key + CSR)
+
+openssl genrsa -out client.key 2048
+openssl req -new -key client.key -out client.csr -subj "/CN=client"
+
+Step 4: Sign Client CSR with CA
+openssl x509 -req -in client.csr -CA ca.pem -CAkey ca.key -CAcreateserial -out client.crt -days 365 -sha256
+
+
+Optional: Convert to PFX for Windows Schannel (if needed)
+
+openssl pkcs12 -export -out client.pfx -inkey client.key -in client.crt -certfile ca.pem
+openssl pkcs12 -export -out server.pfx -inkey server.key -in server.crt -certfile ca.pem 
+*/
+
+
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include <netinet/in.h>
